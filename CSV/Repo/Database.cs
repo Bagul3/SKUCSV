@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSV.Repo
 {
     public class Database
     {
-        string connectionPath = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source = C:\\Users\\VM\\Downloads\\Data\\hq.mdb";
+        string connectionPath = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source = ";
         OleDbConnection accessConnection = null;
 
-        public Database()
+        public Database(string databaseConnectionString)
         {
-            
+            connectionPath += databaseConnectionString;
         }
 
         private void OpenConnection(string accessConnectionPath)
@@ -30,7 +27,7 @@ namespace CSV.Repo
             }
         }
 
-        public void QueryAndBuild()
+        public string QueryAndBuild(string imageDetails)
         {
             string querySelect = "SELECT * FROM ShopStaff";
             
@@ -40,46 +37,36 @@ namespace CSV.Repo
             {
                 OleDbCommand myAccessCommand = new OleDbCommand(querySelect, accessConnection);
                 OleDbDataAdapter myDataAdapter = new OleDbDataAdapter(myAccessCommand);
+                myDataAdapter.Fill(data);                
+                foreach(DataTable table in data.Tables)
+                    WriteToCsvFile(table, "D:\\Users\\Conor\\ContractWork\\output-"+imageDetails+".csv");
 
-                myDataAdapter.Fill(data);
-
-                DataTableCollection dta = data.Tables;
-
-                WriteToCsvFile(data.Tables[0], "C:\\Users\\VM\\Downloads\\output.csv");
                 myDataAdapter.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: Failed to retrieve the required data from the DataBase.\n{0}", ex.Message);
-                return;
+                return "Error: Failed to retrieve the required data from the DataBase.\n{0}";
             }
             finally
             {
                 accessConnection.Close();
             }
+            return "CSV file created successfully";
         }
 
         private void WriteToCsvFile(DataTable dataTable, string filePath)
         {
             StringBuilder fileContent = new StringBuilder();
-
             foreach (var col in dataTable.Columns)
-            {
                 fileContent.Append(col.ToString() + ",");
-            }
 
-            fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
-
+            fileContent.Replace(",", Environment.NewLine, fileContent.Length - 1, 1);
             foreach (DataRow dr in dataTable.Rows)
             {
                 foreach (var column in dr.ItemArray)
-                {
                     fileContent.Append("\"" + column.ToString() + "\",");
-                }
-
-                fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
+                fileContent.Replace(",", Environment.NewLine, fileContent.Length - 1, 1);
             }
-
             System.IO.File.WriteAllText(filePath, fileContent.ToString());
         }
     }
