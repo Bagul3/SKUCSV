@@ -1,0 +1,25 @@
+﻿<Window x:Class="CSV.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSV"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid HorizontalAlignment="Center"  VerticalAlignment="Center" MinWidth="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="24"></RowDefinition>
+                <RowDefinition Height="23"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Path To Images" Height="16" Margin="0,4"></TextBlock>
+            <TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path}" Grid.ColumnSpan="2" Margin="0,0,0,2" Height="22"></TextBox>
+            <Button  Grid.Row="1" Grid.Column="1" Command="{Binding GenerateCSV}">Generate</Button>
+        </Grid>
+    </Grid>
+</Window>
