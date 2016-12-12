@@ -8,9 +8,16 @@ namespace CSV.Services
     {
         public List<string> ReadImageDetails(string path)
         {
-            var imageDetails = Directory.GetFiles(path, "*.jpg*", SearchOption.AllDirectories)
+            try
+            {
+                var imageDetails = Directory.GetFiles(path, "*.jpeg*", SearchOption.AllDirectories)
                 .ToList();
-            return ParseImageNames(imageDetails);
+                return ParseImageNames(imageDetails);
+            }
+            catch
+            {
+                return null;
+            }            
         }
 
         private List<string> ParseImageNames(List<string> imageDetails)

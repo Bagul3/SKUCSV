@@ -51,7 +51,7 @@ namespace CSV.Repo
             {
                 accessConnection.Close();
             }
-            return "CSV file created successfully";
+            return imageDetails + ".csv CSV file created successfully";
         }
 
         private void WriteToCsvFile(DataTable dataTable, string filePath)

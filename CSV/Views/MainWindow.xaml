@@ -10,7 +10,8 @@
         <Grid HorizontalAlignment="Center"  VerticalAlignment="Center" MinWidth="250">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" MinHeight="24"></RowDefinition>
-                <RowDefinition Height="23"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -19,7 +20,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Path To Images" Height="16" Margin="0,4"></TextBlock>
             <TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path}" Grid.ColumnSpan="2" Margin="0,0,0,2" Height="22"></TextBox>
-            <Button  Grid.Row="1" Grid.Column="1" Command="{Binding GenerateCSV}">Generate</Button>
+            <TextBlock VerticalAlignment="Center" Grid.Row="1" Text="{Binding ConsoleOutput}" Grid.ColumnSpan="3" Margin="-9,10,0,54" Width="400" x:Name="TextBox" Height="136"/>
+            <Button  Grid.Row="2" Grid.Column="1" Command="{Binding GenerateCSV}">Generate</Button>
         </Grid>
     </Grid>
 </Window>

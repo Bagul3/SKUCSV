@@ -4,6 +4,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,13 @@ namespace CSV.ViewModel
             set { SetProperty(ref _path, value); }
         }
 
+        private string _consoleOutput = "";
+        public string ConsoleOutput
+        {
+            get { return _consoleOutput; }
+            set { SetProperty(ref _consoleOutput, value); }
+        }
+
         public ICommand GenerateCSV { get; set; }
 
         public MainWindowViewModel()
@@ -44,10 +52,17 @@ namespace CSV.ViewModel
 
         private void Execute()
         {
-            List<string> imageDetails = _imageService.ReadImageDetails(_path);
-            Database db = new Database(_databaseConnectionString);
+            ConsoleOutput += "Generating CSV File...";
+            ConsoleOutput += "";
+            var imageDetails = _imageService.ReadImageDetails(_path);
+            var db = new Database(_databaseConnectionString);
+            if(imageDetails == null)
+            {
+                ConsoleOutput +="Error: Please check your image path";
+                ConsoleOutput += "";
+            }
             foreach (string image in imageDetails)
-                db.QueryAndBuild(image);
+                ConsoleOutput += string.Format(db.QueryAndBuild(image), Environment.NewLine);
         }
     }
 }
